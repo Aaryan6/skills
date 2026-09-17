@@ -8,6 +8,7 @@ The format is the open [Agent Skills](https://agentskills.io) layout, so these w
 
 | skill | what it does |
 |---|---|
+| [`gemini-tts`](gemini-tts/) | Text to speech with Google's Gemini TTS — single voice or multi-speaker, style directed in plain language, writes a `.wav`. |
 | [`x-lookup`](x-lookup/) | Fetch posts, text, images and videos from X/Twitter — trends, single posts, threads, search, profiles — with headless Playwright. |
 
 Each skill's folder has its own README with requirements and usage.
