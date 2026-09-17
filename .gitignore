@@ -1,0 +1,5 @@
+# saved X login sessions (Chromium user-data dirs)
+**/.profile/
+# script output
+x-fetch.json
+.DS_Store
