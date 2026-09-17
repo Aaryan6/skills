@@ -3,3 +3,5 @@
 # script output
 x-fetch.json
 .DS_Store
+__pycache__/
+*.pyc
