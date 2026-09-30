@@ -8,6 +8,7 @@ The format is the open [Agent Skills](https://agentskills.io) layout, so these w
 
 | skill | what it does |
 |---|---|
+| [`codex-image`](codex-image/) | Generate images with the Codex CLI's built-in image tool on your ChatGPT login — reference images for consistent characters, `--transparent` for real alpha cut-outs. |
 | [`gemini-tts`](gemini-tts/) | Text to speech with Google's Gemini TTS — single voice or multi-speaker, style directed in plain language, writes a `.wav`. |
 | [`stop-motion-explainer`](stop-motion-explainer/) | Vertical explainer reels in a hand-made stop-motion paper look — one animated scene per line of voiceover, 12fps boil, grain, taped screenshots, karaoke captions — rendered with HyperFrames. |
 | [`x-lookup`](x-lookup/) | Fetch posts, text, images and videos from X/Twitter — trends, single posts, threads, search, profiles — with headless Playwright. |
