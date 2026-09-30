@@ -1,0 +1,131 @@
+/* Stop-motion explainer scene kit: shared look for hand-built vertical reels (1080x1920).
+   build_scenes.py inlines this file into index.html. Scene CSS goes after it in the reel's own style block.
+   Re-theme by editing the :root tokens (keep --acc-rgb in sync with --acc). */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+:root {
+  --bg: #0f0f12; --ink: #f4f1ea; --dim: #8c8a84; --card: #17171b; --line: #2a2a30;
+  --acc: #ffb82e; --acc-rgb: 255, 184, 46;   /* the one accent colour */
+  --red: #ff5a4e;                           /* only for "wrong", limits, deadlines */
+  --paper: #f3eee2; --hard: 12px 16px 0 rgba(0,0,0,.6);
+  --display: Inter, system-ui, sans-serif; --mono: "JetBrains Mono", monospace;
+}
+html, body { width: 1080px; height: 1920px; overflow: hidden; background: var(--bg); color: var(--ink); font-family: var(--display); }
+#root { position: relative; width: 100%; height: 100%; overflow: hidden; background: var(--bg); }
+.mono { font-family: var(--mono); }
+
+/* ---- sky: the camera travels between the ground and the air (K.travel) ---- */
+#sky { position: absolute; inset: 0; overflow: hidden; }
+#grid { position: absolute; left: -40px; top: -40px; width: 1160px; height: 2000px; background-image: radial-gradient(rgba(255,255,255,.07) 2px, transparent 2.4px); background-size: 44px 44px; }
+#tint { position: absolute; inset: 0; opacity: 0; background: radial-gradient(ellipse 90% 60% at 50% 30%, rgba(var(--acc-rgb),.09), transparent 70%); }
+#ground { position: absolute; inset: 0; background: radial-gradient(ellipse 70% 40% at 50% 62%, rgba(var(--acc-rgb),.06), transparent 70%); }
+#wisps { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; }
+.wisp { position: absolute; border-radius: 50%; background: radial-gradient(closest-side, rgba(var(--acc-rgb),.10), rgba(var(--acc-rgb),0)); }
+#vig { position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 45%, transparent 55%, rgba(0,0,0,.55)); }
+#stage { position: absolute; inset: 0; }
+.scene { position: absolute; inset: 0; }
+.sc { position: absolute; inset: 0; }
+
+/* ---- chrome: handle tag, chapter label, progress bar ---- */
+#chrome { position: absolute; left: 40px; top: 34px; height: 56px; display: flex; align-items: center; gap: 14px; padding: 0 22px; border: 2px solid var(--line); border-radius: 28px; background: var(--card); font-family: var(--mono); font-size: 26px; color: var(--dim); }
+#chrome .dot { width: 12px; height: 12px; border-radius: 50%; background: var(--acc); }
+#chrome b { color: var(--ink); font-weight: 700; }
+#chap { position: absolute; right: 40px; top: 34px; height: 56px; width: 280px; font-family: var(--mono); font-size: 24px; color: var(--dim); }
+#chap span { position: absolute; right: 0; top: 0; height: 56px; display: flex; align-items: center; gap: 10px; opacity: 0; white-space: nowrap; }
+#chap span b { color: var(--acc); font-weight: 800; }
+#progwrap { position: absolute; left: 0; right: 0; top: 0; height: 7px; background: var(--line); }
+#prog { position: absolute; inset: 0; background: var(--acc); transform-origin: 0 50%; }
+
+/* ---- karaoke captions (band y 1262-1350; keep scene art above 1250) ---- */
+.cap { position: absolute; left: 40px; top: 1262px; width: 1000px; text-align: center; font-size: 64px; font-weight: 800; letter-spacing: -1.5px; line-height: 1.1; }
+.cap .w { display: inline-block; position: relative; opacity: 0; }
+.cap .w.acc { color: var(--acc); }
+
+/* ---- small shared bits ---- */
+.src { position: absolute; font-family: var(--mono); font-size: 22px; color: var(--dim); padding: 6px 14px; border: 2px solid var(--line); border-radius: 10px; background: rgba(23,23,27,.92); white-space: nowrap; }
+.src b { color: var(--ink); font-weight: 700; }
+.draw { fill: none; stroke: var(--acc); stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 100; stroke-dashoffset: 100; }
+.ch { opacity: 0; }
+.caret { display: inline-block; width: .12em; height: 1em; background: var(--acc); vertical-align: -.12em; margin-left: .06em; }
+.hl { position: absolute; background: var(--acc); mix-blend-mode: multiply; border-radius: 6px; transform-origin: 0 50%; }
+.odo { display: inline-block; height: 1em; overflow: hidden; line-height: 1em; vertical-align: top; }
+.odo .reel { display: flex; flex-direction: column; }
+.odo b { display: block; height: 1em; font-weight: inherit; }
+.coin { position: absolute; top: 0; width: 70px; height: 70px; border-radius: 50%; background: var(--acc); color: #111; font-weight: 900; font-size: 42px; display: flex; align-items: center; justify-content: center; box-shadow: inset 0 0 0 5px rgba(0,0,0,.18), inset 8px 8px 0 rgba(255,255,255,.35); opacity: 0; }
+.ray { position: absolute; width: 8px; height: 90px; margin-left: -4px; border-radius: 4px; background: var(--acc); transform-origin: 50% 0; opacity: 0; }
+.stamp { position: absolute; padding: 8px 22px; border: 7px solid currentColor; border-radius: 16px; font-weight: 900; letter-spacing: -1px; white-space: nowrap; opacity: 0; }
+
+/* ---- prop: 3D laptop (see scene-kit.md) ---- */
+.lapstage { position: absolute; left: 0; width: 1080px; height: 900px; perspective: 2200px; perspective-origin: 50% 20%; display: flex; justify-content: center; }
+.lcam { position: relative; width: 700px; height: 880px; transform-style: preserve-3d; }
+.lid { position: absolute; left: 0; top: 0; width: 700px; height: 440px; transform-style: preserve-3d; transform-origin: 50% 100%; }
+.lidf { position: absolute; inset: 0; border-radius: 26px 26px 6px 6px; background: #23262a; padding: 16px; backface-visibility: hidden; box-shadow: inset 0 0 0 2px #3a3e42; }
+.scr { position: relative; width: 100%; height: 100%; border-radius: 12px; background: #06080a; overflow: hidden; }
+.lidb { position: absolute; inset: 0; border-radius: 26px 26px 6px 6px; background: linear-gradient(135deg, #30353a, #1b1e21); backface-visibility: hidden; transform: rotateY(180deg); display: flex; align-items: center; justify-content: center; }
+.lidb i { width: 26px; height: 26px; border-radius: 50%; background: var(--acc); box-shadow: 0 0 30px rgba(var(--acc-rgb),.6); }
+.base { position: absolute; left: 0; top: 440px; width: 700px; height: 440px; transform-origin: 50% 0; transform: rotateX(90deg); border-radius: 4px 4px 34px 34px; background: linear-gradient(#2d3135, #202326); box-shadow: inset 0 0 0 2px #3a3e42; }
+.kb { position: absolute; left: 46px; right: 46px; top: 34px; height: 230px; border-radius: 10px; background-color: #121416; background-image: repeating-linear-gradient(90deg, #2a2e32 0 7px, transparent 7px 51px), repeating-linear-gradient(0deg, #2a2e32 0 7px, transparent 7px 46px); }
+.pad { position: absolute; left: 230px; width: 240px; top: 292px; height: 118px; border-radius: 14px; background: #26292d; box-shadow: inset 0 0 0 2px #34383c; }
+.kglow { position: absolute; inset: 0; border-radius: inherit; opacity: 0; background: radial-gradient(ellipse 80% 60% at 50% 10%, rgba(var(--acc-rgb),.55), rgba(var(--acc-rgb),0)); }
+.seam { position: absolute; left: 30px; right: 30px; bottom: -3px; height: 6px; border-radius: 3px; background: var(--acc); box-shadow: 0 0 24px 6px rgba(var(--acc-rgb),.8); opacity: 0; }
+.scrglow { position: absolute; inset: -60px; border-radius: 60px; background: radial-gradient(closest-side, rgba(var(--acc-rgb),.22), transparent); opacity: .9; }
+.term { position: absolute; left: 24px; right: 20px; top: 18px; font-family: var(--mono); font-size: 23px; line-height: 32px; color: #cfd1cb; }
+.term div { white-space: nowrap; opacity: 0; }
+.term .d { color: #9a9d95; } .term .a { color: var(--acc); } .term .r { color: #f47a7a; } .term .wht { color: #fff; font-weight: 700; }
+
+/* ---- prop: cloud outline ---- */
+.cloud { position: absolute; overflow: visible; }
+.cloud .draw { stroke-width: 7; }
+.cloud .fill { fill: rgba(var(--acc-rgb),.05); stroke: none; }
+
+/* ---- prop: server rack ---- */
+.rack { width: 160px; padding: 12px; border-radius: 14px; background: #151517; border: 3px solid #303036; display: flex; flex-direction: column; gap: 8px; }
+.unit { height: 30px; border-radius: 6px; background: #0d0d10; display: flex; align-items: center; gap: 8px; padding: 0 10px; }
+.unit i { width: 10px; height: 10px; border-radius: 50%; background: var(--acc); box-shadow: 0 0 10px var(--acc); }
+.unit b { flex: 1; height: 6px; border-radius: 3px; background: #26262c; }
+
+/* ---- prop: isometric cube (VM, box, container) ---- */
+.cubest { position: absolute; width: 220px; height: 220px; perspective: 1400px; }
+.cube { position: absolute; left: 30px; top: 40px; width: 160px; height: 160px; transform-style: preserve-3d; }
+.face { position: absolute; left: 0; top: 0; width: 160px; height: 160px; border-radius: 10px; }
+.f1 { background: #1a1a1f; border: 4px solid var(--acc); transform: translateZ(80px); display: flex; align-items: center; justify-content: center; font-family: var(--mono); font-weight: 800; font-size: 34px; color: var(--acc); }
+.f2 { background: #111114; border: 4px solid rgba(var(--acc-rgb),.5); transform: rotateY(90deg) translateZ(80px); }
+.f3 { background: #222228; border: 4px solid var(--acc); transform: rotateX(90deg) translateZ(80px); background-image: radial-gradient(var(--acc) 5px, transparent 6px); background-size: 40px 40px; background-position: 20px 20px; }
+
+/* ---- prop: flip card (front + back, e.g. a drawn stat that flips to the real receipt) ---- */
+.flip { position: relative; transform-style: preserve-3d; }
+.cf { position: absolute; inset: 0; border-radius: 40px; backface-visibility: hidden; overflow: hidden; }
+.cf.back { transform: rotateY(180deg); }
+
+/* ---- prop: tear-off calendar page ---- */
+.cpage { position: absolute; inset: 0; border-radius: 28px; background: var(--paper); color: #111; overflow: hidden; transform-origin: 50% 0; box-shadow: 0 20px 50px rgba(0,0,0,.5); }
+.cpage .mo { height: 110px; background: var(--red); color: #fff; font-weight: 900; font-size: 56px; letter-spacing: 4px; display: flex; align-items: center; justify-content: center; }
+.cpage .dy { font-weight: 900; font-size: 250px; letter-spacing: -10px; text-align: center; line-height: 330px; }
+
+/* ---- prop: comic panel ---- */
+.panel { position: absolute; left: 60px; width: 960px; border-radius: 28px; background: #141417; border: 3px solid #2c2c32; overflow: hidden; }
+.pnum { position: absolute; left: 22px; top: 18px; width: 58px; height: 58px; border-radius: 16px; background: var(--acc); color: #111; font-weight: 900; font-size: 38px; display: flex; align-items: center; justify-content: center; }
+.plbl { position: absolute; left: 100px; top: 26px; font-family: var(--mono); font-size: 28px; color: var(--dim); }
+
+/* ---- noise layers (always present; animated only in stop-motion) ---- */
+#fx { position: absolute; inset: 0; pointer-events: none; }
+#grain { position: absolute; left: -256px; top: -256px; width: 1592px; height: 2432px; opacity: 0; }
+/* the texture sits on a pseudo-element so the layout audit doesn't treat the grain as an opaque panel over every label */
+#grain::before { content: ""; position: absolute; inset: 0; background-image: url(assets/kit/grain.png); }
+#flicker { position: absolute; inset: 0; background: #000; opacity: 0; }
+
+/* ======================= stop-motion look (root gets class "sm") =======================
+   paper printouts with tape, cut-out cards with hard shadows, ransom-note words, boil. */
+.boil { translate: var(--bx, 0px) var(--by, 0px); rotate: var(--br, 0deg); }
+.sm #grain { opacity: 1; }
+.sm .paper { border: 12px solid var(--paper); border-radius: 4px !important; box-shadow: var(--hard) !important; }
+.sm .taped { position: relative; }
+.sm .taped::before, .sm .taped::after { content: ""; position: absolute; z-index: 5; width: 170px; height: 48px; top: -16px; left: -46px; transform: rotate(-35deg);
+  background: rgba(233,224,190,.86); box-shadow: 0 3px 6px rgba(0,0,0,.3);
+  clip-path: polygon(0 10%, 4% 0, 8% 12%, 12% 2%, 88% 0, 92% 12%, 96% 0, 100% 10%, 100% 90%, 96% 100%, 92% 88%, 88% 100%, 12% 98%, 8% 88%, 4% 100%, 0 90%); }
+.sm .taped::after { left: auto; right: -46px; transform: rotate(35deg); }
+.sm .cut { box-shadow: var(--hard) !important; }
+.sm .cap .w:nth-child(odd) { rotate: -2deg; } .sm .cap .w:nth-child(even) { rotate: 1.5deg; }
+.sm .ransom > span { display: inline-block; margin: 8px 6px; padding: 0 .14em; border-radius: 6px; background: var(--ink); color: #111; box-shadow: 8px 10px 0 rgba(0,0,0,.55); }
+.sm .ransom > span:nth-child(odd) { rotate: -3deg; } .sm .ransom > span:nth-child(even) { rotate: 2.5deg; translate: 0 10px; }
+.sm .ransom > span.acc { background: var(--acc); }
+.sm .src { box-shadow: 6px 8px 0 rgba(0,0,0,.55); }
