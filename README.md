@@ -1,19 +1,19 @@
 # skills
 
-A collection of agent skills — small, self-contained folders that teach an AI coding agent how to do one thing well. Each skill has a `SKILL.md` (the instructions the agent reads) and, where needed, scripts it can run.
+A collection of agent skills, which are small, self-contained folders that teach an AI coding agent how to do one thing well. Each skill has a `SKILL.md` with the instructions an agent reads and, where needed, scripts it can run.
 
-The format is the open [Agent Skills](https://agentskills.io) layout, so these work with any tool that reads `SKILL.md` — Claude Code, Codex, Cursor, OpenCode, and others.
+The format follows the open [Agent Skills](https://agentskills.io) layout. These skills work with any tool that reads `SKILL.md`, including Claude Code, Codex, Cursor, OpenCode, and others.
 
 ## Skills
 
 | skill | what it does |
 |---|---|
-| [`codex-image`](codex-image/) | Generate images with the Codex CLI's built-in image tool on your ChatGPT login — reference images for consistent characters, `--transparent` for real alpha cut-outs. |
-| [`gemini-api`](gemini-api/) | Use Google's official `gemini-api` CLI from the shell — generate and edit images, video, speech and music, transcribe audio and video, analyze files and YouTube links, run managed agents. |
-| [`gemini-tts`](gemini-tts/) | Text to speech with Google's Gemini TTS — single voice or multi-speaker, style directed in plain language, writes a `.wav`. |
-| [`ig-lookup`](ig-lookup/) | Instagram reels research — a creator's reels ranked by views, captions, likes, comments, dates, hashtag top reels, mp4 download, contact sheets and Whisper transcripts — with headless Playwright + yt-dlp. |
-| [`stop-motion-explainer`](stop-motion-explainer/) | Vertical explainer reels in a hand-made stop-motion paper look — one animated scene per line of voiceover, 12fps boil, grain, taped screenshots, karaoke captions — rendered with HyperFrames. |
-| [`x-lookup`](x-lookup/) | Fetch posts, text, images and videos from X/Twitter — trends, single posts, threads, search, profiles — with headless Playwright. |
+| [`codex-image`](codex-image/) | Generate images with the Codex CLI's built-in image tool on your ChatGPT login. Supports reference images for consistent characters and `--transparent` for real alpha cut-outs. |
+| [`gemini-api`](gemini-api/) | Use Google's official `gemini-api` CLI from the shell to generate and edit images, video, speech and music, transcribe audio and video, analyze files and YouTube links, and run managed agents. |
+| [`gemini-tts`](gemini-tts/) | Text to speech with Google's Gemini TTS for a single voice or multiple speakers. Style is directed in plain language, and output is written to a `.wav` file. |
+| [`ig-lookup`](ig-lookup/) | Instagram reels research that ranks a creator's reels by views, captions, likes, comments, dates, and hashtag top reels. Includes mp4 downloads, contact sheets, and Whisper transcripts using headless Playwright and yt-dlp. |
+| [`stop-motion-explainer`](stop-motion-explainer/) | Create vertical explainer reels in a hand-made stop-motion paper look. Each voiceover line gets an animated scene, with 12fps boil, grain, taped screenshots, karaoke captions, and HyperFrames rendering. |
+| [`x-lookup`](x-lookup/) | Fetch posts, text, images, and videos from X/Twitter, including trends, single posts, threads, search, and profiles, using headless Playwright. |
 
 Each skill's folder has its own README with requirements and usage.
 
@@ -47,4 +47,4 @@ Swap `x-lookup` for whichever skill you want, and the target directory for your 
 
 ## License
 
-MIT — see [LICENSE](LICENSE).
+MIT. See [LICENSE](LICENSE).
